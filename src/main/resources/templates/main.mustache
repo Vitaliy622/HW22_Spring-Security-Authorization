@@ -1,0 +1,59 @@
+<html>
+<body>
+<div>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+<div>
+    <form method="post">
+        <input type="text" name="model" placeholder="Type model" />
+        <input type="text" name="brand" placeholder="Brand">
+        <input type="text" name="cpu" placeholder="CPU">
+        <input type="number" name="memory" placeholder="RAM">
+        <input type="radio" name="used" value="true"> Used<BR>
+        <input type="radio" name="used" value="false"> "NotUsed<BR>
+        <input type="text" name="material" placeholder="Material">
+        <input type="number" name="price" placeholder="Price">
+        <input type="number" name="year" placeholder="Year">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        <button type="submit">Add</button>
+    </form>
+</div>
+<div>Laptop list</div>
+<form method="post" action="filter">
+    <input type="number" name="filter">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <button type="submit">Find By Memory</button>
+</form>
+<form method="post" action="sortByBrand">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <button type="submit">Sort by brand name</button>
+</form>
+<form method="post" action="showUsedLaptops">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <button type="submit">Show Used Laptops</button>
+</form>
+{{#laptops}}
+    <div>
+        <b>{{id}}:</b>
+        <strong>Model:  {{model}}</strong>
+        <strong>-----</strong>
+        <strong>Brand:  {{brand}}</strong>
+        <strong>-----</strong>
+        <strong>CPU:  {{cpu}}</strong>
+        <strong>-----</strong>
+        <strong>RAM:  {{memory}}</strong>
+        <strong>-----</strong>
+        <strong>Used or not:  {{used}}</strong>
+        <strong>-----</strong>
+        <strong>Material:  {{material}}</strong>
+        <strong>-----</strong>
+        <strong>Price:  {{price}}</strong>
+        <strong>-----</strong>
+        <strong>Year:  {{year}}</strong>
+    </div>
+{{/laptops}}
+</body>
+</html>
