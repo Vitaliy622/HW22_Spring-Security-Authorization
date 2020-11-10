@@ -17,6 +17,7 @@ import java.util.Map;
 
 @Controller
 public class MainController {
+    private final String lt="laptop";
    @Autowired
     private LaptopRepository laptopRepository;
    @Autowired
@@ -28,9 +29,9 @@ public class MainController {
     }
 
     @GetMapping("main")
-    public String main(Map<String,Object >model){
+    public String main(Map<String,Object >model,Model model2){
         Iterable<Laptop>laptops= laptopRepository.findAll();
-        model.put("laptops",laptops);
+        model.put(lt,laptops);
         return "main";
     }
     @PostMapping("main")
@@ -43,31 +44,30 @@ public class MainController {
                       @RequestParam String material,
                       @RequestParam BigDecimal price,
                       @RequestParam int year,
-                      Map<String,Object >models){
+                      Map<String,Object >models,Model model2){
 
         Laptop laptop= new Laptop(model,brand,cpu,memory,used,material,price,year);
         laptopRepository.save(laptop);
         Iterable<Laptop>laptops= laptopRepository.findAll();
-        models.put("laptops",laptops);
+        models.put(lt,laptops);
+        model2.addAttribute(lt,laptopService.showAllLaptops());
         return "main";
     }
     @PostMapping("filter")
     public String findLaptopsByMemoryGreaterThen(@RequestParam int filter, Map<String,Object>model){
         Iterable<Laptop>laptops;
             laptops=laptopService.showLaptopsByMemoryGreaterThan(filter);
-        model.put("laptops",laptops);
+        model.put(lt,laptops);
         return "main";
     }
     @PostMapping("sortByBrand")
     public String sortByBrand(Model model){
-        //Iterable<Laptop>laptops;
-       // laptops=laptopRepository.findByOrderByBrandDesc();
-        model.addAttribute("laptops", laptopService.sortByBrand());
+        model.addAttribute(lt, laptopService.sortByBrand());
         return "/main";
     }
     @PostMapping("showUsedLaptops")
     public String showUsedLaptops(Model model){
-        model.addAttribute("laptops",laptopService.showUsedLaptops(true));
+        model.addAttribute(lt,laptopService.showUsedLaptops(true));
         return "/main";
     }
 }
